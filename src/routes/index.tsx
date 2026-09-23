@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import { Fragment, useMemo, useState } from "react";
 
-import image1 from "@/assets/image.png.asset.json";
 import image7 from "@/assets/image-7.png.asset.json";
 import image8 from "@/assets/image-8.png.asset.json";
 import image2 from "@/assets/image-2.png.asset.json";
