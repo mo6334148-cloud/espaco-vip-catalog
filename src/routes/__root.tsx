@@ -77,11 +77,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Espaço VIP" },
-      { name: "description", content: "Salão de beleza em São Paulo" },
-      { name: "author", content: "Espaço VIP" },
-      { property: "og:title", content: "Espaço VIP" },
-      { property: "og:description", content: "Salão de beleza em São Paulo" },
+      { title: "Espaço VIP Cabelo" },
+      { name: "description", content: "Salão de beleza e cuidados capilares em São Paulo" },
+      { name: "author", content: "Espaço VIP Cabelo" },
+      { property: "og:title", content: "Espaço VIP Cabelo" },
+      { property: "og:description", content: "Salão de beleza e cuidados capilares em São Paulo" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -114,7 +114,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>

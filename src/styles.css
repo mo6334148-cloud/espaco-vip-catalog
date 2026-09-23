@@ -35,32 +35,38 @@
   --color-promo: var(--promo);
   --color-promo-foreground: var(--promo-foreground);
   --color-footer: var(--footer);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-hero-foreground: var(--hero-foreground);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(0.115 0.008 340);
-  --foreground: oklch(0.97 0.006 340);
-  --card: oklch(0.16 0.01 340);
-  --card-foreground: oklch(0.97 0.006 340);
-  --popover: oklch(0.145 0.01 340);
-  --popover-foreground: oklch(0.97 0.006 340);
-  --primary: oklch(0.66 0.23 350);
-  --primary-foreground: oklch(0.99 0.002 340);
-  --secondary: oklch(0.205 0.012 340);
-  --secondary-foreground: oklch(0.95 0.008 340);
-  --muted: oklch(0.19 0.01 340);
-  --muted-foreground: oklch(0.69 0.015 340);
-  --accent: oklch(0.25 0.04 345);
-  --accent-foreground: oklch(0.98 0.004 340);
+  --radius: 0.5rem;
+  --background: oklch(0.99 0.006 30);
+  --foreground: oklch(0.24 0.018 20);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.018 20);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.018 20);
+  --primary: oklch(0.64 0.16 355);
+  --primary-foreground: oklch(0.99 0.004 20);
+  --secondary: oklch(0.965 0.018 5);
+  --secondary-foreground: oklch(0.32 0.035 10);
+  --muted: oklch(0.965 0.01 30);
+  --muted-foreground: oklch(0.5 0.025 20);
+  --accent: oklch(0.92 0.045 5);
+  --accent-foreground: oklch(0.34 0.06 5);
   --destructive: oklch(0.62 0.22 25);
-  --destructive-foreground: oklch(0.98 0.004 340);
-  --border: oklch(0.28 0.012 340);
-  --input: oklch(0.25 0.012 340);
-  --ring: oklch(0.66 0.23 350);
-  --promo: oklch(0.3 0.11 350);
-  --promo-foreground: oklch(0.88 0.1 350);
-  --footer: oklch(0.085 0.006 340);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.9 0.018 45);
+  --input: oklch(0.9 0.018 45);
+  --ring: oklch(0.64 0.16 355);
+  --promo: oklch(0.91 0.08 355);
+  --promo-foreground: oklch(0.38 0.12 355);
+  --footer: oklch(0.965 0.018 5);
+  --gold: oklch(0.62 0.105 77);
+  --gold-light: oklch(0.86 0.095 83);
+  --hero-foreground: oklch(0.99 0.005 30);
 }
 
 @layer base {
@@ -87,11 +93,19 @@
 }
 
 @utility bg-hero-overlay {
-  background: linear-gradient(to bottom, transparent 28%, color-mix(in oklab, var(--background) 35%, transparent) 58%, var(--background) 100%);
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 8%, transparent) 15%, color-mix(in oklab, var(--foreground) 62%, transparent) 100%);
 }
 
 @utility shadow-float {
-  box-shadow: 0 12px 35px color-mix(in oklab, var(--primary) 30%, transparent);
+  box-shadow: 0 12px 30px color-mix(in oklab, var(--primary) 24%, transparent);
+}
+
+@utility shadow-card {
+  box-shadow: 0 10px 28px color-mix(in oklab, var(--foreground) 7%, transparent);
+}
+
+@utility shadow-profile {
+  box-shadow: 0 12px 38px color-mix(in oklab, var(--foreground) 28%, transparent);
 }
 
 @utility scrollbar-none {
