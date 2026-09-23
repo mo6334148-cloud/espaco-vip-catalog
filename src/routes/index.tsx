@@ -335,7 +335,7 @@ function Index() {
             <div className="mt-2 flex items-center gap-2 text-xs font-semibold uppercase text-gold-light">
               <Sparkles className="h-4 w-4" /> Beleza, cuidado e autoestima
             </div>
-            <h1 className="mt-2 font-display text-4xl font-semibold leading-none text-hero-foreground sm:text-6xl">Espaço VIP Cabelo</h1>
+            <h1 className="mt-2 font-display text-4xl font-semibold leading-none text-hero-foreground sm:text-6xl">Espaço VIP</h1>
             <p className="mt-3 text-sm font-medium text-hero-foreground/85 sm:text-base">Salão de beleza em SP</p>
           </div>
         </section>
