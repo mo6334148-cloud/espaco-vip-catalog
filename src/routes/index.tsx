@@ -331,7 +331,7 @@ function Index() {
           <img src={salaoImage.url} alt="Interior do Espaço VIP Cabelo" className="absolute inset-0 h-full w-full object-cover object-center" />
           <div className="absolute inset-0 bg-hero-overlay" />
           <div className="relative flex min-h-[440px] flex-col items-center justify-end px-5 pb-10 text-center sm:min-h-[540px] sm:pb-14">
-            <img src={profissionalImage.url} alt="Profissional do Espaço VIP Cabelo" className="h-28 w-28 -translate-y-3 rounded-full border-4 border-background object-cover object-top shadow-profile sm:h-36 sm:w-36" />
+            <img src={profissionalImage.url} alt="Profissional do Espaço VIP Cabelo" className="h-28 w-28 -translate-y-3 rounded-full border-4 border-background object-cover object-[center_38%] shadow-profile sm:h-36 sm:w-36" />
             <div className="mt-2 flex items-center gap-2 text-xs font-semibold uppercase text-gold-light">
               <Sparkles className="h-4 w-4" /> Beleza, cuidado e autoestima
             </div>
