@@ -13,9 +13,8 @@ import {
   ShoppingBag,
   Sparkles,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 
-import image1 from "@/assets/image.png.asset.json";
 import image7 from "@/assets/image-7.png.asset.json";
 import image8 from "@/assets/image-8.png.asset.json";
 import image2 from "@/assets/image-2.png.asset.json";
@@ -162,24 +161,6 @@ const services: Service[] = [
     priceLabel: "A partir de R$ 40,00",
     category: "Cabelos",
     image: escovaImage.url,
-  },
-  {
-    id: 9,
-    name: "Tratamento com massagem + escova",
-    description: "Cuidado capilar com massagem relaxante e finalização com escova.",
-    price: 80,
-    priceLabel: "R$ 80,00",
-    category: "Tratamentos",
-    image: image1.url,
-  },
-  {
-    id: 10,
-    name: "Hidratação simples + escova",
-    description: "Hidratação simples para cuidar dos fios, acompanhada de finalização com escova.",
-    price: 50,
-    priceLabel: "R$ 50,00",
-    category: "Tratamentos",
-    image: image1.url,
   },
   {
     id: 11,
@@ -350,8 +331,8 @@ function Index() {
           <img src={salaoImage.url} alt="Interior do Espaço VIP Cabelo" className="absolute inset-0 h-full w-full object-cover object-center" />
           <div className="absolute inset-0 bg-hero-overlay" />
           <div className="relative flex min-h-[440px] flex-col items-center justify-end px-5 pb-10 text-center sm:min-h-[540px] sm:pb-14">
-            <img src={profissionalImage.url} alt="Profissional do Espaço VIP Cabelo" className="h-28 w-28 rounded-full border-4 border-background object-cover object-top shadow-profile sm:h-36 sm:w-36" />
-            <div className="mt-5 flex items-center gap-2 text-xs font-semibold uppercase text-gold-light">
+            <img src={profissionalImage.url} alt="Profissional do Espaço VIP Cabelo" className="h-28 w-28 -translate-y-3 rounded-full border-4 border-background object-cover object-top shadow-profile sm:h-36 sm:w-36" />
+            <div className="mt-2 flex items-center gap-2 text-xs font-semibold uppercase text-gold-light">
               <Sparkles className="h-4 w-4" /> Beleza, cuidado e autoestima
             </div>
             <h1 className="mt-2 font-display text-4xl font-semibold leading-none text-hero-foreground sm:text-6xl">Espaço VIP Cabelo</h1>
@@ -378,23 +359,39 @@ function Index() {
             <span className="shrink-0 text-xs text-muted-foreground">{filteredServices.length} opções</span>
           </div>
           <div className="grid gap-4 md:grid-cols-2" aria-live="polite">
-            {filteredServices.map((service) => {
+            {filteredServices.map((service, index) => {
               const selected = cart.includes(service.id);
               return (
-                <article key={service.id} className="grid min-h-44 grid-cols-[104px_minmax(0,1fr)_44px] gap-3 rounded-lg border border-border bg-card p-3 shadow-card sm:grid-cols-[124px_minmax(0,1fr)_48px] sm:gap-4">
-                  <img src={service.image} alt={service.name} loading="lazy" className="h-full min-h-36 w-full rounded-md object-cover" />
-                  <div className="flex min-w-0 flex-col py-1">
-                    <p className="text-[10px] font-bold uppercase text-gold">{service.category}</p>
-                    <h3 className="mt-1 font-display text-lg font-semibold leading-tight sm:text-xl">{service.name}</h3>
-                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">{service.description}</p>
-                    <strong className="mt-auto pt-3 text-sm text-primary sm:text-base">{service.priceLabel}</strong>
-                  </div>
-                  <div className="flex items-end justify-end">
-                    <Button variant={selected ? "default" : "secondary"} size="icon" className="h-11 w-11 rounded-md" aria-label={selected ? `Remover ${service.name}` : `Adicionar ${service.name}`} aria-pressed={selected} onClick={() => toggleService(service.id)}>
-                      {selected ? <Check /> : <Plus />}
-                    </Button>
-                  </div>
-                </article>
+                <Fragment key={service.id}>
+                  <article className="grid min-h-44 grid-cols-[104px_minmax(0,1fr)_44px] gap-3 rounded-lg border border-border bg-card p-3 shadow-card sm:grid-cols-[124px_minmax(0,1fr)_48px] sm:gap-4">
+                    <img src={service.image} alt={service.name} loading="lazy" className="h-full min-h-36 w-full rounded-md object-cover" />
+                    <div className="flex min-w-0 flex-col py-1">
+                      <p className="text-[10px] font-bold uppercase text-gold">{service.category}</p>
+                      <h3 className="mt-1 font-display text-lg font-semibold leading-tight sm:text-xl">{service.name}</h3>
+                      <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">{service.description}</p>
+                      <strong className="mt-auto pt-3 text-sm text-primary sm:text-base">{service.priceLabel}</strong>
+                    </div>
+                    <div className="flex items-end justify-end">
+                      <Button variant={selected ? "default" : "secondary"} size="icon" className="h-11 w-11 rounded-md" aria-label={selected ? `Remover ${service.name}` : `Adicionar ${service.name}`} aria-pressed={selected} onClick={() => toggleService(service.id)}>
+                        {selected ? <Check /> : <Plus />}
+                      </Button>
+                    </div>
+                  </article>
+                  {activeCategory === "Todos" && index === 4 && (
+                    <aside className="grid overflow-hidden rounded-lg border border-gold/45 bg-secondary/45 shadow-card md:col-span-2 md:grid-cols-[0.9fr_1.1fr]" aria-label="Destaque dos Pacotes Mensais">
+                      <img src={pacotesImage.url} alt="Cartão dos pacotes mensais na mão da profissional" loading="lazy" className="h-56 w-full object-cover object-center md:h-full md:min-h-72" />
+                      <div className="flex flex-col justify-center p-6 sm:p-8">
+                        <div className="flex items-center gap-2 text-gold"><Crown className="h-5 w-5" /><span className="text-xs font-bold uppercase">Destaque do catálogo</span></div>
+                        <h3 className="mt-3 font-display text-3xl">Pacotes Mensais</h3>
+                        <p className="mt-3 text-xl font-bold text-primary">A partir de R$ 110,00</p>
+                        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Consulte as opções de pacotes mensais disponíveis diretamente com o Espaço VIP Cabelo.</p>
+                        <Button asChild size="lg" className="mt-6 h-12 w-full sm:w-auto">
+                          <a href={whatsappLink("Olá! Vi os pacotes mensais do Espaço VIP Cabelo no site e gostaria de saber mais sobre as opções a partir de R$ 110,00.")} target="_blank" rel="noreferrer"><MessageCircle /> Consultar pacotes pelo WhatsApp</a>
+                        </Button>
+                      </div>
+                    </aside>
+                  )}
+                </Fragment>
               );
             })}
           </div>
