@@ -7,4 +7,4 @@
 - [x] Criar seção Pacotes Mensais
 - [x] Atualizar apresentação com salão e profissional
 - [x] Configurar prévia de compartilhamento
-- [ ] Validar visual mobile, carrinho e links do WhatsApp
+- [x] Validar visual mobile, carrinho e links do WhatsApp
