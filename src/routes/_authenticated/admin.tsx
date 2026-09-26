@@ -65,7 +65,7 @@ function useCatalog() {
       ]);
       const err = s.error ?? p.error ?? ps.error ?? h.error ?? st.error;
       if (err) throw err;
-      return { services: s.data, professionals: p.data, links: ps.data, hours: h.data, settings: st.data };
+      return { services: s.data ?? [], professionals: p.data ?? [], links: ps.data ?? [], hours: h.data ?? [], settings: st.data };
     },
   });
 }
@@ -179,7 +179,7 @@ function AgendaTab() {
 
   async function setStatus(id: string, status: AppointmentStatus) {
     const { error } = await supabase.from("appointments").update({ status }).eq("id", id);
-    if (error) return toast.error(errorMessage(error));
+    if (error) return void toast.error(errorMessage(error));
     toast.success(`Agendamento ${statusLabels[status].toLowerCase()}`);
     queryClient.invalidateQueries({ queryKey: ["appointments"] });
     queryClient.invalidateQueries({ queryKey: ["appointments-month"] });
@@ -291,10 +291,10 @@ function NewAppointmentTab() {
     setSaving(true);
     const { error } = await supabase.rpc("create_booking", {
       _service_id: svc, _professional_id: pro, _date: date, _start: time, _name: name, _phone: phone,
-      _email: email || undefined, _status: status, _notes: notes || undefined,
+      _email: email.trim(), _status: status, _notes: notes.trim(),
     });
     setSaving(false);
-    if (error) return toast.error(errorMessage(error));
+    if (error) return void toast.error(errorMessage(error));
     toast.success("Agendamento criado");
     setTime(""); setName(""); setPhone(""); setEmail(""); setNotes("");
     queryClient.invalidateQueries({ queryKey: ["appointments"] });
@@ -361,16 +361,16 @@ function BlocksTab() {
 
   async function add(e: React.FormEvent) {
     e.preventDefault();
-    if (end <= start) return toast.error("O fim deve ser depois do início.");
+    if (end <= start) return void toast.error("O fim deve ser depois do início.");
     const { error } = await supabase.from("time_blocks").insert({ block_date: date, start_time: start, end_time: end, professional_id: pro || null, reason: reason || null });
-    if (error) return toast.error(errorMessage(error));
+    if (error) return void toast.error(errorMessage(error));
     toast.success("Horário bloqueado");
     setReason("");
     blocks.refetch();
   }
   async function remove(id: string) {
     const { error } = await supabase.from("time_blocks").delete().eq("id", id);
-    if (error) return toast.error(errorMessage(error));
+    if (error) return void toast.error(errorMessage(error));
     blocks.refetch();
   }
 
@@ -421,7 +421,7 @@ function ServicesTab() {
   async function addService() {
     const sort = (catalog.data?.services.length ?? 0) + 1;
     const { data, error } = await supabase.from("services").insert({ name: "Novo serviço", duration_minutes: 60, price_cents: 0, sort_order: sort }).select().single();
-    if (error) return toast.error(errorMessage(error));
+    if (error) return void toast.error(errorMessage(error));
     const prosIds = catalog.data?.professionals.map((p) => ({ professional_id: p.id, service_id: data.id })) ?? [];
     if (prosIds.length) await supabase.from("professional_services").insert(prosIds);
     refresh();
@@ -456,13 +456,13 @@ function ServiceEditor({ service, onSaved }: { service: ServiceRow; onSaved: () 
   async function save() {
     const duration = parseInt(form.duration, 10);
     const price = Math.round(parseFloat(form.price.replace(/\./g, "").replace(",", ".")) * 100);
-    if (!form.name.trim() || !duration || duration <= 0 || Number.isNaN(price) || price < 0) return toast.error("Confira nome, duração e preço.");
+    if (!form.name.trim() || !duration || duration <= 0 || Number.isNaN(price) || price < 0) return void toast.error("Confira nome, duração e preço.");
     setSaving(true);
     const { error } = await supabase.from("services").update({
       name: form.name.trim(), description: form.description.trim(), duration_minutes: duration, price_cents: price, price_label: form.label.trim() || null, active: form.active,
     }).eq("id", service.id);
     setSaving(false);
-    if (error) return toast.error(errorMessage(error));
+    if (error) return void toast.error(errorMessage(error));
     toast.success("Serviço salvo");
     onSaved();
   }
@@ -496,20 +496,20 @@ function ProfessionalsTab() {
     e.preventDefault();
     if (!name.trim()) return;
     const { error } = await supabase.from("professionals").insert({ name: name.trim() });
-    if (error) return toast.error(errorMessage(error));
+    if (error) return void toast.error(errorMessage(error));
     setName("");
     refresh();
   }
   async function toggleActive(id: string, active: boolean) {
     const { error } = await supabase.from("professionals").update({ active }).eq("id", id);
-    if (error) return toast.error(errorMessage(error));
+    if (error) return void toast.error(errorMessage(error));
     refresh();
   }
   async function toggleService(proId: string, svcId: string, on: boolean) {
     const { error } = on
       ? await supabase.from("professional_services").insert({ professional_id: proId, service_id: svcId })
       : await supabase.from("professional_services").delete().eq("professional_id", proId).eq("service_id", svcId);
-    if (error) return toast.error(errorMessage(error));
+    if (error) return void toast.error(errorMessage(error));
     refresh();
   }
 
@@ -563,7 +563,7 @@ function SettingsEditor({ step, buffer }: { step: number; buffer: number }) {
   const [b, setB] = useState(String(buffer));
   async function save() {
     const { error } = await supabase.from("salon_settings").update({ slot_step_minutes: parseInt(s, 10) || 30, buffer_minutes: parseInt(b, 10) || 0 }).eq("id", 1);
-    if (error) return toast.error(errorMessage(error));
+    if (error) return void toast.error(errorMessage(error));
     toast.success("Configurações salvas");
     queryClient.invalidateQueries({ queryKey: ["admin-catalog"] });
   }
@@ -588,12 +588,12 @@ function HourRow({ hour }: { hour: HourRowData }) {
     be: hour.break_end ? shortTime(hour.break_end) : "",
   });
   async function save() {
-    if (f.to <= f.from) return toast.error("O fechamento deve ser depois da abertura.");
-    if ((f.bs && !f.be) || (!f.bs && f.be) || (f.bs && f.be <= f.bs)) return toast.error("Confira o horário de almoço.");
+    if (f.to <= f.from) return void toast.error("O fechamento deve ser depois da abertura.");
+    if ((f.bs && !f.be) || (!f.bs && f.be) || (f.bs && f.be <= f.bs)) return void toast.error("Confira o horário de almoço.");
     const { error } = await supabase.from("business_hours").update({
       is_open: f.open, open_time: f.from, close_time: f.to, break_start: f.bs || null, break_end: f.be || null,
     }).eq("weekday", hour.weekday);
-    if (error) return toast.error(errorMessage(error));
+    if (error) return void toast.error(errorMessage(error));
     toast.success(`${weekdayLabels[hour.weekday]} salvo`);
     queryClient.invalidateQueries({ queryKey: ["admin-catalog"] });
   }

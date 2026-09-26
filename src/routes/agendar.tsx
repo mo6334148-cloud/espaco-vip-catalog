@@ -126,7 +126,7 @@ function BookingPage() {
       _start: time!,
       _name: name.trim(),
       _phone: phone,
-      _email: email.trim() || undefined,
+      _email: email.trim(),
     });
     setSubmitting(false);
     if (error) {
@@ -282,7 +282,7 @@ function BookingPage() {
 }
 
 function Summary(props: { service: string; price: string; professional: string; dateKey: string; time: string; name: string; duration: number }) {
-  const [h, m] = props.time.split(":").map(Number);
+  const [h = 0, m = 0] = props.time.split(":").map(Number);
   const endMinutes = h * 60 + m + props.duration;
   const end = `${String(Math.floor(endMinutes / 60)).padStart(2, "0")}:${String(endMinutes % 60).padStart(2, "0")}`;
   const rows = [
