@@ -103,7 +103,7 @@ function BookingPage() {
 
   function back() {
     const i = steps.indexOf(step);
-    if (i > 0) setStep(steps[i - 1]);
+    if (i > 0) setStep(steps[i - 1] ?? "service");
   }
 
   function submitDetails(e: React.FormEvent) {
