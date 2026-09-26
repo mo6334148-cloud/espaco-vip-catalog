@@ -11,4 +11,6 @@
 - [x] Remover Tratamento com massagem + escova e Hidratação simples + escova
 - [x] Exibir Pacotes Mensais no meio do catálogo e manter a seção inferior
 - [x] Elevar discretamente a foto de perfil na apresentação
-- [x] Validar os ajustes no celular e os dois acessos aos Pacotes Mensais
+- [x] Validar os ajustes no celular e os dois acessos aos Pacotes Mensais- [x] Agendamento online (/agendar) com procedimentos, profissional, data, horários livres, dados, revisão e sucesso
+- [x] Painel administrativo protegido (/admin) com agenda, filtros, status, criação manual, bloqueios, serviços, profissionais e funcionamento
+- [ ] Confirmar com a cliente os dias/horários reais de funcionamento e durações dos serviços
