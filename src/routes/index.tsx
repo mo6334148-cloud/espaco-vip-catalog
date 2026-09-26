@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowLeft,
+  CalendarCheck,
   Check,
   Crown,
   ExternalLink,
@@ -264,6 +265,9 @@ function Index() {
             <span className="truncate text-sm font-semibold">Catálogo</span>
           </div>
           <div className="flex shrink-0 items-center gap-1">
+            <Button asChild size="sm" className="mr-1 rounded-full px-3">
+              <Link to="/agendar"><CalendarCheck /> Agendar</Link>
+            </Button>
             <Button variant="ghost" size="icon" aria-label="Compartilhar catálogo" onClick={shareCatalog}>
               {shared ? <Check /> : <Link2 />}
             </Button>
@@ -337,6 +341,9 @@ function Index() {
             </div>
             <h1 className="mt-2 font-display text-4xl font-semibold leading-none text-hero-foreground sm:text-6xl">Espaço VIP</h1>
             <p className="mt-3 text-sm font-medium text-hero-foreground/85 sm:text-base">Salão de beleza em SP</p>
+            <Button asChild size="lg" className="mt-6 h-12 rounded-full px-7 shadow-float motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 duration-700">
+              <Link to="/agendar"><CalendarCheck /> Agendar horário</Link>
+            </Button>
           </div>
         </section>
 
