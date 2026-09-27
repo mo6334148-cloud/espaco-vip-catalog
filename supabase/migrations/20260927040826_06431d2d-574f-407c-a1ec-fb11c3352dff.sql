@@ -1,0 +1,1 @@
+CREATE POLICY "Anyone views catalog photos" ON storage.objects FOR SELECT TO anon, authenticated USING (bucket_id = 'catalog');
