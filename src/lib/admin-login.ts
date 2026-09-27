@@ -1,4 +1,4 @@
-// Converts the admin username (e.g. "thaisespaçovip") into the login e-mail used by auth.
+// Converts the admin username (e.g. "miguellindo") into the login e-mail used by auth.
 export function usernameToEmail(input: string) {
   const value = input.trim().toLowerCase();
   if (value.includes("@")) return value;

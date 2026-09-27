@@ -10,6 +10,6 @@
 <!-- LOVABLE:END -->
 
 # Architecture rules
-- Booking availability and creation live in DB functions `get_available_slots` / `create_booking` (security definer) — one source of truth for hours, breaks, blocks, buffer and conflicts; an exclusion constraint blocks overlaps.
+- Online booking removed; admin panel only adds catalog items (table catalog_items, private bucket "catalog" read via signed URLs) — public buckets are blocked in this workspace.
 - Admin panel uses the browser client with RLS gated by `has_role(auth.uid(),'admin')`; public signup is disabled.
 - Admin login is username-based: `usernameToEmail` in src/lib/admin-login.ts maps it to a synthetic e-mail.
