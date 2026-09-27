@@ -45,16 +45,16 @@ function AdminPage() {
 
   async function add(e: React.FormEvent) {
     e.preventDefault();
-    if (!file || !name.trim()) return toast.error("Informe o nome e escolha uma foto.");
+    if (!file || !name.trim()) { toast.error("Informe o nome e escolha uma foto."); return; }
     setSaving(true);
     const path = `${crypto.randomUUID()}.${file.name.split(".").pop() || "jpg"}`;
     const up = await supabase.storage.from("catalog").upload(path, file, { contentType: file.type });
-    if (up.error) { setSaving(false); return toast.error("Não foi possível enviar a foto."); }
+    if (up.error) { setSaving(false); toast.error("Não foi possível enviar a foto."); return; }
     const { error } = await supabase.from("catalog_items").insert({
       name: name.trim(), description: description.trim(), price_label: price.trim() || null, category, image_url: path,
     });
     setSaving(false);
-    if (error) return toast.error("Não foi possível salvar.");
+    if (error) { toast.error("Não foi possível salvar."); return; }
     toast.success("Adicionado ao catálogo!");
     setName(""); setDescription(""); setPrice(""); setFile(null);
     (e.target as HTMLFormElement).reset();
