@@ -1,7 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCatalogItems } from "@/lib/catalog";
 import {
   ArrowLeft,
-  CalendarCheck,
   Check,
   Crown,
   ExternalLink,
@@ -72,7 +73,7 @@ export const Route = createFileRoute("/")({
 type Category = "Todos" | "Progressiva" | "Cabelos" | "Sobrancelhas" | "Tratamentos" | "Coloração";
 
 type Service = {
-  id: number;
+  id: number | string;
   name: string;
   description: string;
   price: number;
@@ -210,18 +211,34 @@ function whatsappLink(message: string) {
 
 function Index() {
   const [activeCategory, setActiveCategory] = useState<Category>("Todos");
-  const [cart, setCart] = useState<number[]>([]);
+  const [cart, setCart] = useState<(number | string)[]>([]);
+  const extra = useQuery({ queryKey: ["catalog-items"], queryFn: fetchCatalogItems });
+  const allServices = useMemo<Service[]>(
+    () => [
+      ...services,
+      ...(extra.data ?? []).map((it) => ({
+        id: it.id,
+        name: it.name,
+        description: it.description,
+        price: 0,
+        priceLabel: it.price_label ?? "Consulte o valor",
+        category: it.category as Service["category"],
+        image: it.imageSrc,
+      })),
+    ],
+    [extra.data],
+  );
   const [shared, setShared] = useState(false);
 
   const filteredServices = useMemo(
     () =>
       activeCategory === "Todos"
-        ? services
-        : services.filter((service) => service.category === activeCategory),
-    [activeCategory],
+        ? allServices
+        : allServices.filter((service) => service.category === activeCategory),
+    [activeCategory, allServices],
   );
 
-  const selectedServices = services.filter((service) => cart.includes(service.id));
+  const selectedServices = allServices.filter((service) => cart.includes(service.id));
   const total = selectedServices.reduce((sum, service) => sum + service.price, 0);
   const whatsappMessage = selectedServices.length
     ? `Olá, Espaço VIP Cabelo! Gostaria de agendar os seguintes serviços:\n\n${selectedServices
@@ -229,7 +246,7 @@ function Index() {
         .join("\n")}\n\nTotal a partir de: ${formatPrice(total)}\n\nGostaria de verificar os horários disponíveis.`
     : generalMessage;
 
-  function toggleService(id: number) {
+  function toggleService(id: number | string) {
     setCart((current) =>
       current.includes(id) ? current.filter((serviceId) => serviceId !== id) : [...current, id],
     );
@@ -265,9 +282,6 @@ function Index() {
             <span className="truncate text-sm font-semibold">Catálogo</span>
           </div>
           <div className="flex shrink-0 items-center gap-1">
-            <Button asChild size="sm" className="mr-1 rounded-full px-3">
-              <Link to="/agendar"><CalendarCheck /> Agendar</Link>
-            </Button>
             <Button variant="ghost" size="icon" aria-label="Compartilhar catálogo" onClick={shareCatalog}>
               {shared ? <Check /> : <Link2 />}
             </Button>
@@ -341,9 +355,6 @@ function Index() {
             </div>
             <h1 className="mt-2 font-display text-4xl font-semibold leading-none text-hero-foreground sm:text-6xl">Espaço VIP</h1>
             <p className="mt-3 text-sm font-medium text-hero-foreground/85 sm:text-base">Salão de beleza em SP</p>
-            <Button asChild size="lg" className="mt-6 h-12 rounded-full px-7 shadow-float motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 duration-700">
-              <Link to="/agendar"><CalendarCheck /> Agendar horário</Link>
-            </Button>
           </div>
         </section>
 

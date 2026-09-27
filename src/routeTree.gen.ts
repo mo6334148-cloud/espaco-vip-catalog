@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as AgendarRouteImport } from './routes/agendar'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 
@@ -22,11 +21,6 @@ const IndexRoute = IndexRouteImport.update({
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AgendarRoute = AgendarRouteImport.update({
-  id: '/agendar',
-  path: '/agendar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -42,13 +36,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/agendar': typeof AgendarRoute
   '/auth': typeof AuthRoute
   '/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/agendar': typeof AgendarRoute
   '/auth': typeof AuthRoute
   '/admin': typeof AuthenticatedAdminRoute
 }
@@ -56,28 +48,20 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/agendar': typeof AgendarRoute
   '/auth': typeof AuthRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/agendar' | '/auth' | '/admin'
+  fullPaths: '/' | '/auth' | '/admin'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/agendar' | '/auth' | '/admin'
-  id:
-    | '__root__'
-    | '/'
-    | '/_authenticated'
-    | '/agendar'
-    | '/auth'
-    | '/_authenticated/admin'
+  to: '/' | '/auth' | '/admin'
+  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/admin'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  AgendarRoute: typeof AgendarRoute
   AuthRoute: typeof AuthRoute
 }
 
@@ -95,13 +79,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/agendar': {
-      id: '/agendar'
-      path: '/agendar'
-      fullPath: '/agendar'
-      preLoaderRoute: typeof AgendarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -135,7 +112,6 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  AgendarRoute: AgendarRoute,
   AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport

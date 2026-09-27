@@ -111,6 +111,36 @@ export type Database = {
         }
         Relationships: []
       }
+      catalog_items: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          image_url: string
+          name: string
+          price_label: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url: string
+          name: string
+          price_label?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string
+          name?: string
+          price_label?: string | null
+        }
+        Relationships: []
+      }
       clients: {
         Row: {
           created_at: string
